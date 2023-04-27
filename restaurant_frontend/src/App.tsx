@@ -1,16 +1,20 @@
-
-import './App.css'
-import Signin from './components/Signin'
-
+import "./App.css";
+import Signin from "./components/Signin";
+import Dashboard from "./components/Dashboard";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
-
   return (
     <>
       <div>
-        <Signin/>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Signin/>}/>
+            <Route path="dashboard" element={<Dashboard/>}/>
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

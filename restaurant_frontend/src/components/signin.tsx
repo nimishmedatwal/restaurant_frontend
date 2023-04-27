@@ -12,10 +12,14 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
-const theme = createTheme();
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function Signin() {
     const [username, setUsername] = useState('');
@@ -25,7 +29,7 @@ export default function Signin() {
     
         try {
           const response = await axios.get(
-            'https://api.airtable.com/v0/appjWdL7YgpxIxCKA/credenitals',
+            'https://api.airtable.com/v0/appjWdL7YgpxIxCKA/credenitals?view=Grid%20view',
             {
               headers: {
                 Authorization: 'Bearer keyfXgn8PL6pB3x32',
@@ -36,15 +40,22 @@ export default function Signin() {
               },
             }
           );
-    
-        console.log(response);
+
+            console.log(response);  
+          if(response.data.records.length>=1){
+            console.log("ho gya login")
+            window.location.href = "/dashboard";
+          }
+          else{
+            console.log("nahi hua login")
+          }
         } catch (error) {
           console.log(error);
         }
       };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid

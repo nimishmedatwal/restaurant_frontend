@@ -1,9 +1,10 @@
-:root {
-  margin:0;
-  padding:0;
+#root {
+  margin:0px;
+  padding:0px;
+
 }
-
-
+/* set margin of html */
 body {
-  margin: 0;
+  margin:0px;
+  padding:0px;
 }
