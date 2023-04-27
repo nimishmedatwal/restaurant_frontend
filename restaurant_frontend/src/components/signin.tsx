@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,23 +13,13 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import axios from 'axios';
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function Signin() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,6 +27,25 @@ export default function SignInSide() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    try {
+      const response = await axios.get(
+        'https://api.airtable.com/v0/appjWdL7YgpxIxCKA/credenitals',
+        {
+          headers: {
+            Authorization: 'Bearer keyfXgn8PL6pB3x32',
+          },
+          params: {
+            filterByFormula: `AND(username = '${data.get('email')}', password = '${data.get('email')}')`,
+            maxRecords: 1,
+          },
+        }
+      );
+
+      // Handle successful login here...
+    } catch (error) {
+      console.log(error);
+    }
+  };
   };
 
   return (
@@ -117,7 +127,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              
             </Box>
           </Box>
         </Grid>
