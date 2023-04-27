@@ -20,33 +20,28 @@ const theme = createTheme();
 export default function Signin() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    try {
-      const response = await axios.get(
-        'https://api.airtable.com/v0/appjWdL7YgpxIxCKA/credenitals',
-        {
-          headers: {
-            Authorization: 'Bearer keyfXgn8PL6pB3x32',
-          },
-          params: {
-            filterByFormula: `AND(username = '${data.get('email')}', password = '${data.get('email')}')`,
-            maxRecords: 1,
-          },
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    
+        try {
+          const response = await axios.get(
+            'https://api.airtable.com/v0/appjWdL7YgpxIxCKA/credenitals',
+            {
+              headers: {
+                Authorization: 'Bearer keyfXgn8PL6pB3x32',
+              },
+              params: {
+                filterByFormula: `AND(username = '${username}', password = '${password}')`,
+                maxRecords: 1,
+              },
+            }
+          );
+    
+        console.log(response);
+        } catch (error) {
+          console.log(error);
         }
-      );
-
-      // Handle successful login here...
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  };
+      };
 
   return (
     <ThemeProvider theme={theme}>
@@ -91,7 +86,8 @@ export default function Signin() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -100,6 +96,8 @@ export default function Signin() {
                 name="password"
                 label="Password"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 autoComplete="current-password"
               />
